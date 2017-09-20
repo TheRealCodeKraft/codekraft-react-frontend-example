@@ -58,11 +58,11 @@
     "style-loader": "^0.18.2",
     "svgo": "^0.7.2",
     "svgo-loader": "^1.2.1",
-    "webpack": "^3.4.1",
     "webpack-dashboard": "^0.4.0",
     "webpack-dev-server": "^2.6.1"
   },
   "dependencies": {
+    "webpack": "^3.4.1",
     "babel-polyfill": "^6.23.0",
     "codekraft-react-frontend": "^1.0.21",
     "dotenv": "^4.0.0",

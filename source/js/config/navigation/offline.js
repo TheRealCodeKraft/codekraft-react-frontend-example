@@ -1,7 +1,6 @@
 import Why from 'components/offline/why'
 
 const offline = {
-  root: "/",
   menu: {
     side: {
       items: [

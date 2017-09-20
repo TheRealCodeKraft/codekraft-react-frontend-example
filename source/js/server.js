@@ -1,57 +1,19 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import express from 'express';
-import { Provider } from 'react-redux';
-import transit from 'transit-immutable-js';
-
-import 'babel-polyfill';
-
-import configureStore from 'config/store';
-import getServerHtml from 'config/server-html';
-import Server from 'views/Server';
-
-// Load SCSS
-import '../scss/app.scss';
-
+const path = require('path');
+const express = require('express');
 const app = express();
-const hostname = 'localhost';
-const port = 8080;
+const PORT = process.env.PORT || 3001;
 
-app.use('/client', express.static('build/client'));
+var sslRedirect = require('heroku-ssl-redirect');
+app.use(sslRedirect());
 
-app.use((req, res) => {
-  // Creates empty store for each request
-  const store = configureStore();
-  // Dehydrates the state
-  const dehydratedState = JSON.stringify(transit.toJSON(store.getState()));
+app.use("/", express.static(path.resolve('build')));
 
-  // Context is passed to the StaticRouter and it will attach data to it directly
-  const context = {};
-
-  const appHtml = ReactDOMServer.renderToString(
-    <Provider store={ store }>
-      <Server location={ req.url } context={ context } />
-    </Provider>
-  );
-
-  const serverHtml = getServerHtml(appHtml, dehydratedState);
-
-  // Context has url, which means `<Redirect>` was rendered somewhere
-  if (context.url) {
-    res.redirect(301, context.url);
-  } else {
-    // We're good, send the response
-    res.status(context.status || 200).send(serverHtml);
-  }
-
-  // TODO how to handle 50x errors?
+app.get("*", function(request, response) {
+  response.sendFile(path.resolve("build/index.html'));
 });
 
-// Start listening
-app.listen(port, (error) => {
-  if (error) {
-    console.error(error); // eslint-disable-line
-  } else {
-    console.info(`\n★★ Listening on port ${ port }. Open up http://${ hostname }:${ port }/ in your browser.\n`); // eslint-disable-line
-  }
+app.listen(PORT, error => {
+  error
+  ? console.error(error)
+  : console.info(`==> 🌎 Listening on port ${PORT}. Visit http://localhost:${PORT}/ in your browser.`)
 });

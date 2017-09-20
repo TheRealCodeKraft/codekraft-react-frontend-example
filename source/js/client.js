@@ -40,6 +40,7 @@ if (module.hot) {
   });
 }
 */
+
 import { Bootstrap } from 'codekraft-react-frontend'
 import '../scss/app.scss';
 
@@ -48,9 +49,6 @@ import 'babel-polyfill';
 import OfflineNav from './config/navigation/offline'
 import DashboardNav from './config/navigation/dashboard'
 import AdminNav from './config/navigation/admin'
-
-console.log("PROCESS")
-console.dir(process.env)
 
 const config = {
   clients: [

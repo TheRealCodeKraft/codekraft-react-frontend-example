@@ -9,6 +9,7 @@ const paths = {
   source: path.join(__dirname, '../source'),
   javascript: path.join(__dirname, '../source/js'),
   images: path.join(__dirname, '../source/assets/img'),
+  fonts: path.join(__dirname, '../source/fonts'),
   svg: path.join(__dirname, '../source/assets/svg'),
   build: path.join(__dirname, '../build'),
 };
@@ -125,6 +126,19 @@ const rules = [
       },
     ],
   },
+  {
+    test: /\.(eot|ttf|woff|woff2|svg)$/,
+    include: paths.fonts,
+    use: [
+      {
+        loader: 'file-loader',
+        options: {
+          name: 'client/assets/[name]-[hash].[ext]',
+        },
+      },
+    ],
+  },
+
 ];
 
 // Almost the same rule is used in both development and production
